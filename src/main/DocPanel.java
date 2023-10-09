@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -48,7 +49,7 @@ public class DocPanel extends javax.swing.JPanel {
 		int lastDotIndex = fileName.lastIndexOf (".");
 		if (lastDotIndex > 0)
 			fileName = fileName.substring (0, lastDotIndex);
-		
+
 		this.docName = this.docType + ":" + fileName;
 	}
 
@@ -67,6 +68,12 @@ public class DocPanel extends javax.swing.JPanel {
 		for (DocTextArea textArea : getDocTextAreas ()) {
 			textArea.setUpperCaseFilter ();
 		}
+	}
+
+	@Override
+	public Dimension getPreferredSize () {
+		Dimension imageSize = new Dimension (imageIcon.getIconWidth (), imageIcon.getIconHeight ());
+		return imageSize;
 	}
 
 	public void cleanPanel () {

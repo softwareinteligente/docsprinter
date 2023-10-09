@@ -12,6 +12,11 @@ public class DocGlobals {
 	static public String pdfManifiestoFilename = "image-manifiesto-vacio-NTA.pdf";
 	static public String imgManifiestoFilepath;
 	static public String pdfManifiestoFilepath;
+
+	static public String imgDeclaracionFilename = "image-declaracion-vacia-NTA.png";
+	static public String pdfDeclaracionFilename = "image-declaracion-vacia-NTA.pdf";
+	static public String imgDeclaracionFilepath;
+	static public String pdfDeclaracionFilepath;
 	
 	static public String temporalPath;
 	static public String resourcesPath;

@@ -39,6 +39,8 @@ public class DocController {
 			newDocPanel = new DocPanelCartaporte ();
 		else if ((documentType.equals ("manifiesto")))
 			newDocPanel = new DocPanelManifiesto ();
+		else if ((documentType.equals ("declaracion")))
+			newDocPanel = new DocPanelDeclaracion ();
 
 		newDocPanel.init (newFilepath);
 		docFrame.addTab (newDocPanel.docName, newDocPanel);

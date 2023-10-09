@@ -26,6 +26,10 @@ public class DocFrame extends javax.swing.JFrame {
 		this.controller = controller;
 	}
 
+	void addTab (String tabName, DocPanel docPanel) {
+		docsTabs.add (tabName, docPanel);
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +45,7 @@ public class DocFrame extends javax.swing.JFrame {
     fileMenu = new javax.swing.JMenu();
     newCartaporte = new javax.swing.JMenuItem();
     newManifiesto = new javax.swing.JMenuItem();
+    newDeclaracion = new javax.swing.JMenuItem();
     jSeparator1 = new javax.swing.JPopupMenu.Separator();
     openFile = new javax.swing.JCheckBoxMenuItem();
     saveFile = new javax.swing.JCheckBoxMenuItem();
@@ -75,6 +80,14 @@ public class DocFrame extends javax.swing.JFrame {
       }
     });
     fileMenu.add(newManifiesto);
+
+    newDeclaracion.setText("Nueva Declaración");
+    newDeclaracion.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        newDeclaracionActionPerformed(evt);
+      }
+    });
+    fileMenu.add(newDeclaracion);
     fileMenu.add(jSeparator1);
 
     openFile.setText("Abrir");
@@ -153,7 +166,7 @@ public class DocFrame extends javax.swing.JFrame {
 		}
 		return null;
 	}
-	
+
   private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
 		// TODO add your handling code here:
 		controller.onOpenDocument ();
@@ -172,14 +185,17 @@ public class DocFrame extends javax.swing.JFrame {
 			controller.onNewDocument ("cartaporte", newFilepath);
   }//GEN-LAST:event_newCartaporteActionPerformed
 
-	void addTab (String tabName, DocPanel docPanel) {
-		docsTabs.add (tabName, docPanel);
-	}
   private void newManifiestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newManifiestoActionPerformed
 		String newFilepath = this.selectFileFromFileChooser ();
 		if (newFilepath != null)
 			controller.onNewDocument ("manifiesto", newFilepath);
   }//GEN-LAST:event_newManifiestoActionPerformed
+
+  private void newDeclaracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDeclaracionActionPerformed
+		String newFilepath = this.selectFileFromFileChooser ();
+		if (newFilepath != null)
+			controller.onNewDocument ("declaracion", newFilepath);	
+  }//GEN-LAST:event_newDeclaracionActionPerformed
 
 	public void setSpanishLabels () {
 		// Set the Spanish labels and messages for the file chooser
@@ -227,6 +243,7 @@ public class DocFrame extends javax.swing.JFrame {
   private javax.swing.JPopupMenu.Separator jSeparator2;
   private javax.swing.JMenuBar menuBar;
   private javax.swing.JMenuItem newCartaporte;
+  private javax.swing.JMenuItem newDeclaracion;
   private javax.swing.JMenuItem newManifiesto;
   private javax.swing.JCheckBoxMenuItem openFile;
   private javax.swing.JMenuItem saveAsPdf;
