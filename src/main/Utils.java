@@ -177,10 +177,10 @@ public class Utils {
 	}
 
 	// Copy emmbeded resources  (programs and images) to temporal dir
-	public static boolean copyResourcesToTemporalPath (Object CLASS, String temporalPath) {
-		Utils.createFolder (Paths.get (temporalPath, "resources").toString ());
-		if (Utils.copyResourcesToTemporalPathFromJar (CLASS, temporalPath) == false)
-			if (Utils.copyResourcesToTemporalPathFromPath (CLASS, temporalPath) == false){
+	public static boolean copyResourcesToTemporalPath (Object CLASS, String resourcesPath) {
+		Utils.createFolder (DocGlobals.resourcesPath);
+		if (Utils.copyResourcesToTemporalPathFromJar (CLASS, resourcesPath) == false)
+			if (Utils.copyResourcesToTemporalPathFromPath (CLASS, resourcesPath) == false){
 				JOptionPane.showMessageDialog (null, "No se pudieron copiar los recursos necesarios para la ejecución!");
 				return false;
 			}
@@ -233,7 +233,7 @@ public class Utils {
 					.forEach (filePath -> {
 						if (filePath.equals (resourcePath) == false) {
 							Path relativePath = resourcePath.relativize (filePath);
-							Path destinationPath = Paths.get (temporalPath, resourceDir, relativePath.toString ());
+							Path destinationPath = Paths.get (temporalPath, relativePath.toString ());
 							if (Files.isDirectory (destinationPath))
 								destinationPath.toFile ().mkdir ();
 							else

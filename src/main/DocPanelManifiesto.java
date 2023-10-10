@@ -1,7 +1,11 @@
 package main;
 
+import com.google.gson.JsonObject;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,17 +16,97 @@ public class DocPanelManifiesto extends DocPanel {
 
 	public DocPanelManifiesto () {
 		initComponents ();
-		imgTemplateFilepath = DocGlobals.imgManifiestoFilepath;
-		pdfTemplateFilepath = DocGlobals.pdfManifiestoFilepath;
-
 		docType = "manifiesto";
 		imageIcon = (ImageIcon) imageLabel.getIcon ();
+		this.setConstraintsToTextAreas ();
+		
 	}
 
-	//@Override
-	public Dimension getPreferredSize () {
-		Dimension imageSize = new Dimension (imageIcon.getIconWidth (), imageIcon.getIconHeight ());
-		return imageSize;
+	public void setConstraintsToTextAreas () {
+		this.txt00.setFontSize ("large");
+		this.txt00.setText (docNumber);
+		
+		// Database for "vehiculo"
+		addKeyListenerForVehiculo (txt04, txt05, txt06, txt07);
+		addKeyListenerForVehiculo (txt09, txt10, txt11, txt12);
+		
+		// Databese for "conductor"		
+		addKeyListenerForConductor (txt13, txt14, txt15, txt16, txt17);
+		addKeyListenerForConductor (txt18, txt19, txt20, txt21, txt22);		
+	}
+	
+	public void addKeyListenerForConductor (DocText txtNombre, DocText txtId, DocText txtNacionalidad, DocText txtLicencia, DocText txtLibreta){
+			txtId.addKeyListener (new KeyAdapter () {
+			public void keyPressed (KeyEvent e) {
+				if (e.getKeyCode () != KeyEvent.VK_ENTER) {
+					super.keyPressed (e);
+					return;
+				}
+				if (e.isControlDown () && e.getKeyCode () == KeyEvent.VK_ENTER) {
+					System.out.println (">>> Actualizando un nuevo conductor desde el texto:" + txtId.getText ());
+					String id = txtId.getText ();
+					String nombre = txtNombre.getText ();
+					String nacionalidad = txtNacionalidad.getText ();
+					String licencia = txtLicencia.getText ();
+					String libreta = txtLibreta.getText ();
+					DocDB.updateConductor (DocGlobals.database, id, nombre, nacionalidad, licencia, libreta);
+				} else if (e.getKeyCode () == KeyEvent.VK_ENTER) {
+					String id = txtId.getText ();
+					JsonObject result = DocDB.searchConductor (DocGlobals.database, id);
+					if (result != null) {
+						txtNombre.setText (getValue (result, "nombre"));
+						txtNacionalidad.setText (getValue (result, "nacionalidad"));
+						txtLicencia.setText (getValue (result, "licencia"));
+						txtLibreta.setText (getValue (result, "libreta"));
+					}
+				}
+				e.consume ();
+			}
+		});	
+	}
+	
+	// Get value from JsonObject result
+	public String getValue (JsonObject result, String key) {
+		if (result.get (key)==null)
+			return "";
+		else
+			return result.get (key).getAsString ();
+	}
+	
+	// Search, update, add data for vehiculo 
+	public void addKeyListenerForVehiculo (DocText txtMarca, DocText txtModelo, DocText txtPlaca, DocText txtChasis) {
+			txtPlaca.addKeyListener (new KeyAdapter () {
+			public void keyPressed (KeyEvent e) {
+				if (e.getKeyCode () != KeyEvent.VK_ENTER) {
+					super.keyPressed (e);
+					return;
+				}
+				
+				if (e.isControlDown () && e.getKeyCode () == KeyEvent.VK_ENTER) {
+					System.out.println (">>> Actualizando un nuevo vehiculo desde:" + txt06.getText ());
+					String[] parts = txtPlaca.getText ().split ("[\\s-.]+");
+					String placa = parts.length > 0 ? parts[0] : null;
+					String pais = parts.length > 1 ? parts[1] : null;
+					String marca = txtMarca.getText ();
+					String fabricacion = txtModelo.getText ();
+					String chasis = txtChasis.getText ();
+					DocDB.updateVehiculo (DocGlobals.database, placa, marca, pais, fabricacion, chasis);
+				} else if (e.getKeyCode () == KeyEvent.VK_ENTER) {
+					System.out.println (">>> Consultando un vehiculo desde: " + txtPlaca.getText ());
+					String[] parts = txtPlaca.getText ().split ("[\\-\\s\\.]");
+					String placa = parts.length > 0 ? parts[0] : null;
+					JsonObject result = DocDB.searchVehiculo (DocGlobals.database, placa);
+					if (result != null) {
+						String pais = result.get ("pais")==null? "" : " - " + result.get("pais").getAsString ();
+						txtPlaca.setText (placa + pais);
+						txtMarca.setText (result.get ("marca").getAsString ());
+						txtModelo.setText (result.get ("fabricacion").getAsString ());
+						txtChasis.setText (result.get ("chasis").getAsString ());
+					}
+				}
+				e.consume ();
+			}
+		});		
 	}
 
 	/**
@@ -34,62 +118,61 @@ public class DocPanelManifiesto extends DocPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    txt00 = new main.DocTextArea();
-    txt01 = new main.DocTextArea();
-    txt02 = new main.DocTextArea();
-    txt03 = new main.DocTextArea();
-    txt04 = new main.DocTextArea();
-    txt05 = new main.DocTextArea();
-    txt06 = new main.DocTextArea();
-    txt07 = new main.DocTextArea();
-    txt08 = new main.DocTextArea();
-    txt09 = new main.DocTextArea();
-    txt10 = new main.DocTextArea();
-    txt11 = new main.DocTextArea();
-    txt12 = new main.DocTextArea();
-    txt13 = new main.DocTextArea();
-    txt14 = new main.DocTextArea();
-    txt15 = new main.DocTextArea();
-    txt16 = new main.DocTextArea();
-    txt17 = new main.DocTextArea();
-    txt18 = new main.DocTextArea();
-    txt19 = new main.DocTextArea();
-    txt20 = new main.DocTextArea();
-    txt21 = new main.DocTextArea();
-    txt22 = new main.DocTextArea();
-    txt23 = new main.DocTextArea();
-    txt24 = new main.DocTextArea();
-    txt25_1 = new main.DocTextArea();
-    txt25_2 = new main.DocTextArea();
-    txt25_3 = new main.DocTextArea();
-    txt25_4 = new main.DocTextArea();
-    txt25_5 = new main.DocTextArea();
-    txt26 = new main.DocTextArea();
-    txt27 = new main.DocTextArea();
-    txt28 = new main.DocTextArea();
-    txt29 = new main.DocTextArea();
-    txt30 = new main.DocTextArea();
-    txt31 = new main.DocTextArea();
-    txt32_1 = new main.DocTextArea();
-    txt32_2 = new main.DocTextArea();
-    txt32_3 = new main.DocTextArea();
-    txt32_4 = new main.DocTextArea();
-    txt33_1 = new main.DocTextArea();
-    txt33_2 = new main.DocTextArea();
-    txt34 = new main.DocTextArea();
-    txt35 = new main.DocTextArea();
-    txt36 = new main.DocTextArea();
-    txt37 = new main.DocTextArea();
-    txt38 = new main.DocTextArea();
-    txt39 = new main.DocTextArea();
-    txt40 = new main.DocTextArea();
+    txt00 = new main.DocText();
+    txt01 = new main.DocText();
+    txt02 = new main.DocText();
+    txt03 = new main.DocText();
+    txt04 = new main.DocText();
+    txt05 = new main.DocText();
+    txt06 = new main.DocText();
+    txt07 = new main.DocText();
+    txt08 = new main.DocText();
+    txt09 = new main.DocText();
+    txt10 = new main.DocText();
+    txt11 = new main.DocText();
+    txt12 = new main.DocText();
+    txt13 = new main.DocText();
+    txt14 = new main.DocText();
+    txt15 = new main.DocText();
+    txt16 = new main.DocText();
+    txt17 = new main.DocText();
+    txt18 = new main.DocText();
+    txt19 = new main.DocText();
+    txt20 = new main.DocText();
+    txt21 = new main.DocText();
+    txt22 = new main.DocText();
+    txt23 = new main.DocText();
+    txt24 = new main.DocText();
+    txt25_1 = new main.DocText();
+    txt25_2 = new main.DocText();
+    txt25_3 = new main.DocText();
+    txt25_4 = new main.DocText();
+    txt25_5 = new main.DocText();
+    txt26 = new main.DocText();
+    txt27 = new main.DocText();
+    txt28 = new main.DocText();
+    txt29 = new main.DocText();
+    txt30 = new main.DocText();
+    txt31 = new main.DocText();
+    txt32_1 = new main.DocText();
+    txt32_2 = new main.DocText();
+    txt32_3 = new main.DocText();
+    txt32_4 = new main.DocText();
+    txt33_1 = new main.DocText();
+    txt33_2 = new main.DocText();
+    txt34 = new main.DocText();
+    txt35 = new main.DocText();
+    txt36 = new main.DocText();
+    txt37 = new main.DocText();
+    txt38 = new main.DocText();
+    txt39 = new main.DocText();
+    txt40 = new main.DocText();
     imageLabel = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(255, 255, 255));
-    setPreferredSize(new java.awt.Dimension(1100, 1424));
     setLayout(null);
     add(txt00);
-    txt00.setBounds(835, 90, 200, 25);
+    txt00.setBounds(840, 80, 210, 35);
     add(txt01);
     txt01.setBounds(45, 165, 510, 157);
     add(txt02);
@@ -187,7 +270,7 @@ public class DocPanelManifiesto extends DocPanel {
     add(txt40);
     txt40.setBounds(528, 1310, 529, 54);
 
-    imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image-manifiesto-vacia-NTA.png"))); // NOI18N
+    imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image-manifiesto-vacio-NTA.png"))); // NOI18N
     imageLabel.setAlignmentY(0.0F);
     add(imageLabel);
     imageLabel.setBounds(0, 0, 1100, 1424);
@@ -196,55 +279,55 @@ public class DocPanelManifiesto extends DocPanel {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel imageLabel;
-  private main.DocTextArea txt00;
-  private main.DocTextArea txt01;
-  private main.DocTextArea txt02;
-  private main.DocTextArea txt03;
-  private main.DocTextArea txt04;
-  private main.DocTextArea txt05;
-  private main.DocTextArea txt06;
-  private main.DocTextArea txt07;
-  private main.DocTextArea txt08;
-  private main.DocTextArea txt09;
-  private main.DocTextArea txt10;
-  private main.DocTextArea txt11;
-  private main.DocTextArea txt12;
-  private main.DocTextArea txt13;
-  private main.DocTextArea txt14;
-  private main.DocTextArea txt15;
-  private main.DocTextArea txt16;
-  private main.DocTextArea txt17;
-  private main.DocTextArea txt18;
-  private main.DocTextArea txt19;
-  private main.DocTextArea txt20;
-  private main.DocTextArea txt21;
-  private main.DocTextArea txt22;
-  private main.DocTextArea txt23;
-  private main.DocTextArea txt24;
-  private main.DocTextArea txt25_1;
-  private main.DocTextArea txt25_2;
-  private main.DocTextArea txt25_3;
-  private main.DocTextArea txt25_4;
-  private main.DocTextArea txt25_5;
-  private main.DocTextArea txt26;
-  private main.DocTextArea txt27;
-  private main.DocTextArea txt28;
-  private main.DocTextArea txt29;
-  private main.DocTextArea txt30;
-  private main.DocTextArea txt31;
-  private main.DocTextArea txt32_1;
-  private main.DocTextArea txt32_2;
-  private main.DocTextArea txt32_3;
-  private main.DocTextArea txt32_4;
-  private main.DocTextArea txt33_1;
-  private main.DocTextArea txt33_2;
-  private main.DocTextArea txt34;
-  private main.DocTextArea txt35;
-  private main.DocTextArea txt36;
-  private main.DocTextArea txt37;
-  private main.DocTextArea txt38;
-  private main.DocTextArea txt39;
-  private main.DocTextArea txt40;
+  private main.DocText txt00;
+  private main.DocText txt01;
+  private main.DocText txt02;
+  private main.DocText txt03;
+  private main.DocText txt04;
+  private main.DocText txt05;
+  private main.DocText txt06;
+  private main.DocText txt07;
+  private main.DocText txt08;
+  private main.DocText txt09;
+  private main.DocText txt10;
+  private main.DocText txt11;
+  private main.DocText txt12;
+  private main.DocText txt13;
+  private main.DocText txt14;
+  private main.DocText txt15;
+  private main.DocText txt16;
+  private main.DocText txt17;
+  private main.DocText txt18;
+  private main.DocText txt19;
+  private main.DocText txt20;
+  private main.DocText txt21;
+  private main.DocText txt22;
+  private main.DocText txt23;
+  private main.DocText txt24;
+  private main.DocText txt25_1;
+  private main.DocText txt25_2;
+  private main.DocText txt25_3;
+  private main.DocText txt25_4;
+  private main.DocText txt25_5;
+  private main.DocText txt26;
+  private main.DocText txt27;
+  private main.DocText txt28;
+  private main.DocText txt29;
+  private main.DocText txt30;
+  private main.DocText txt31;
+  private main.DocText txt32_1;
+  private main.DocText txt32_2;
+  private main.DocText txt32_3;
+  private main.DocText txt32_4;
+  private main.DocText txt33_1;
+  private main.DocText txt33_2;
+  private main.DocText txt34;
+  private main.DocText txt35;
+  private main.DocText txt36;
+  private main.DocText txt37;
+  private main.DocText txt38;
+  private main.DocText txt39;
+  private main.DocText txt40;
   // End of variables declaration//GEN-END:variables
 
 	public static void main (String args[]) {
@@ -255,199 +338,199 @@ public class DocPanelManifiesto extends DocPanel {
 
 	}
 
-	public DocTextArea getTxt00 () {
+	public DocText getTxt00 () {
 		return txt00;
 	}
 
-	public DocTextArea getTxt01 () {
+	public DocText getTxt01 () {
 		return txt01;
 	}
 
-	public DocTextArea getTxt02 () {
+	public DocText getTxt02 () {
 		return txt02;
 	}
 
-	public DocTextArea getTxt03 () {
+	public DocText getTxt03 () {
 		return txt03;
 	}
 
-	public DocTextArea getTxt04 () {
+	public DocText getTxt04 () {
 		return txt04;
 	}
 
-	public DocTextArea getTxt05 () {
+	public DocText getTxt05 () {
 		return txt05;
 	}
 
-	public DocTextArea getTxt06 () {
+	public DocText getTxt06 () {
 		return txt06;
 	}
 
-	public DocTextArea getTxt07 () {
+	public DocText getTxt07 () {
 		return txt07;
 	}
 
-	public DocTextArea getTxt08 () {
+	public DocText getTxt08 () {
 		return txt08;
 	}
 
-	public DocTextArea getTxt09 () {
+	public DocText getTxt09 () {
 		return txt09;
 	}
 
-	public DocTextArea getTxt10 () {
+	public DocText getTxt10 () {
 		return txt10;
 	}
 
-	public DocTextArea getTxt11 () {
+	public DocText getTxt11 () {
 		return txt11;
 	}
 
-	public DocTextArea getTxt12 () {
+	public DocText getTxt12 () {
 		return txt12;
 	}
 
-	public DocTextArea getTxt13 () {
+	public DocText getTxt13 () {
 		return txt13;
 	}
 
-	public DocTextArea getTxt14 () {
+	public DocText getTxt14 () {
 		return txt14;
 	}
 
-	public DocTextArea getTxt15 () {
+	public DocText getTxt15 () {
 		return txt15;
 	}
 
-	public DocTextArea getTxt16 () {
+	public DocText getTxt16 () {
 		return txt16;
 	}
 
-	public DocTextArea getTxt17 () {
+	public DocText getTxt17 () {
 		return txt17;
 	}
 
-	public DocTextArea getTxt18 () {
+	public DocText getTxt18 () {
 		return txt18;
 	}
 
-	public DocTextArea getTxt19 () {
+	public DocText getTxt19 () {
 		return txt19;
 	}
 
-	public DocTextArea getTxt20 () {
+	public DocText getTxt20 () {
 		return txt20;
 	}
 
-	public DocTextArea getTxt21 () {
+	public DocText getTxt21 () {
 		return txt21;
 	}
 
-	public DocTextArea getTxt22 () {
+	public DocText getTxt22 () {
 		return txt22;
 	}
 
-	public DocTextArea getTxt23 () {
+	public DocText getTxt23 () {
 		return txt23;
 	}
 
-	public DocTextArea getTxt24 () {
+	public DocText getTxt24 () {
 		return txt24;
 	}
 
-	public DocTextArea getTxt25_1 () {
+	public DocText getTxt25_1 () {
 		return txt25_1;
 	}
 
-	public DocTextArea getTxt25_2 () {
+	public DocText getTxt25_2 () {
 		return txt25_2;
 	}
 
-	public DocTextArea getTxt25_3 () {
+	public DocText getTxt25_3 () {
 		return txt25_3;
 	}
 
-	public DocTextArea getTxt25_4 () {
+	public DocText getTxt25_4 () {
 		return txt25_4;
 	}
 
-	public DocTextArea getTxt25_5 () {
+	public DocText getTxt25_5 () {
 		return txt25_5;
 	}
 
-	public DocTextArea getTxt26 () {
+	public DocText getTxt26 () {
 		return txt26;
 	}
 
-	public DocTextArea getTxt27 () {
+	public DocText getTxt27 () {
 		return txt27;
 	}
 
-	public DocTextArea getTxt28 () {
+	public DocText getTxt28 () {
 		return txt28;
 	}
 
-	public DocTextArea getTxt29 () {
+	public DocText getTxt29 () {
 		return txt29;
 	}
 
-	public DocTextArea getTxt30 () {
+	public DocText getTxt30 () {
 		return txt30;
 	}
 
-	public DocTextArea getTxt31 () {
+	public DocText getTxt31 () {
 		return txt31;
 	}
 
-	public DocTextArea getTxt32_1 () {
+	public DocText getTxt32_1 () {
 		return txt32_1;
 	}
 
-	public DocTextArea getTxt32_2 () {
+	public DocText getTxt32_2 () {
 		return txt32_2;
 	}
 
-	public DocTextArea getTxt32_3 () {
+	public DocText getTxt32_3 () {
 		return txt32_3;
 	}
 
-	public DocTextArea getTxt32_4 () {
+	public DocText getTxt32_4 () {
 		return txt32_4;
 	}
 
-	public DocTextArea getTxt33_1 () {
+	public DocText getTxt33_1 () {
 		return txt33_1;
 	}
 
-	public DocTextArea getTxt33_2 () {
+	public DocText getTxt33_2 () {
 		return txt33_2;
 	}
 
-	public DocTextArea getTxt34 () {
+	public DocText getTxt34 () {
 		return txt34;
 	}
 
-	public DocTextArea getTxt35 () {
+	public DocText getTxt35 () {
 		return txt35;
 	}
 
-	public DocTextArea getTxt36 () {
+	public DocText getTxt36 () {
 		return txt36;
 	}
 
-	public DocTextArea getTxt37 () {
+	public DocText getTxt37 () {
 		return txt37;
 	}
 
-	public DocTextArea getTxt38 () {
+	public DocText getTxt38 () {
 		return txt38;
 	}
 
-	public DocTextArea getTxt39 () {
+	public DocText getTxt39 () {
 		return txt39;
 	}
 
-	public DocTextArea getTxt40 () {
+	public DocText getTxt40 () {
 		return txt40;
 	}
 

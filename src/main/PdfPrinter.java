@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -21,7 +22,7 @@ public class PdfPrinter {
 	String pdfFilepath;
 
 	DocPanel currentDoc;
-	DocTextArea[] textAreas;
+	DocText[] textAreas;
 	int imgWidth, imgHeight, pdfWidth, pdfHeight;
 
 	public PdfPrinter (DocPanel currentDoc) {
@@ -42,7 +43,7 @@ public class PdfPrinter {
 			//PDDocument document = new PDDocument ();
 			//PDPage page = new PDPage ();
 			//document.addPage (page);
-			for (DocTextArea textArea : textAreas) {
+			for (DocText textArea : textAreas) {
 				String text = textArea.getText ();
 				String fontSizeName = textArea.fontSizeName;
 				Rectangle imgBox = textArea.getBounds ();
@@ -61,18 +62,24 @@ public class PdfPrinter {
 	// Replaces system new line with "\n" to check as a single char
 	// Then checks for large string to word wrapping with the last space 
 	public void printBox (PDDocument document, PDPage page, String text, String fontSizeName, Rectangle pdfBox) {
+		int margin = 0;
 		AppendMode APPENDMODE = PDPageContentStream.AppendMode.APPEND;
 		try (PDPageContentStream contentStream = new PDPageContentStream (document, page, APPENDMODE, true)) {
 			PDType1Font font = PDType1Font.HELVETICA;
-			int fontSize = DocGlobals.fontSizeNormal; 
+			int fontSize = DocGlobals.fontSizeNormal;
 			switch (fontSizeName) {
-				case "large": fontSize = DocGlobals.fontSizeLarge;break;
-				case "small": fontSize = DocGlobals.fontSizeSmall;break;
+				case "large":
+					fontSize = DocGlobals.fontSizeLarge;
+					margin = -8;
+					break;
+				case "small":
+					fontSize = DocGlobals.fontSizeSmall;
+					break;
 			}
 			float width = pdfBox.width;
 			float textWidth = 0;
 			float x = pdfBox.x;
-			float y = pdfBox.y;
+			float y = pdfBox.y + margin;
 
 			int lastSpaceIndex = -1;
 			int startLineIndex = 0;
@@ -84,7 +91,7 @@ public class PdfPrinter {
 			while (i < text.length ()) {
 				char c = charArray[i];
 				String charString = "" + c;
-				
+
 				if (charString.equals ("\n")) {
 					showLine (line, contentStream, font, fontSize, x, y, false);
 					startLineIndex = ++i;
@@ -96,22 +103,22 @@ public class PdfPrinter {
 					if (textWidth < width) {
 						line.append (c);
 						i++;
-					}else	if (charString.equals (" ")) {
+					} else if (charString.equals (" ")) {
 						showLine (line, contentStream, font, fontSize, x, y, false);
 						startLineIndex = ++i;
 						y -= fontSize;
-					}else if (lastSpaceIndex > 0) {
-							line = new StringBuilder (text.substring (startLineIndex, lastSpaceIndex));
-							showLine (line, contentStream, font, fontSize, x, y, false);
-							i = lastSpaceIndex + 1;
-							lastSpaceIndex = -1;
-							startLineIndex = i;
-							y -= fontSize;
-					}else {
-							line = new StringBuilder (text.substring (startLineIndex, i));
-							showLine (line, contentStream, font, fontSize, x, y, false);
-							startLineIndex = ++i;
-							y -= fontSize;
+					} else if (lastSpaceIndex > 0) {
+						line = new StringBuilder (text.substring (startLineIndex, lastSpaceIndex));
+						showLine (line, contentStream, font, fontSize, x, y, false);
+						i = lastSpaceIndex + 1;
+						lastSpaceIndex = -1;
+						startLineIndex = i;
+						y -= fontSize;
+					} else {
+						line = new StringBuilder (text.substring (startLineIndex, i));
+						showLine (line, contentStream, font, fontSize, x, y, false);
+						startLineIndex = ++i;
+						y -= fontSize;
 					}
 				}
 			}
@@ -187,6 +194,25 @@ public class PdfPrinter {
 			System.out.println ("IMG Page Height: " + imgHeight + " points");
 		} catch (IOException ex) {
 			Logger.getLogger (DocController.class.getName ()).log (Level.SEVERE, null, ex);
+		}
+	}
+
+	public static void openPDF (String pdfFilepath) {
+		try {
+			// Specify the path to the PDF file you want to open
+			File pdfFile = new File (pdfFilepath);
+
+			if (Desktop.isDesktopSupported ()) {
+				Desktop desktop = Desktop.getDesktop ();
+
+				if (pdfFile.exists () && pdfFile.getName ().toLowerCase ().endsWith (".pdf"))
+					desktop.open (pdfFile);
+				else
+					System.out.println (">>> The specified file is not a valid PDF.");
+			} else
+				System.out.println (">>> Desktop API is not supported on this platform.");
+		} catch (IOException e) {
+			e.printStackTrace ();
 		}
 	}
 }

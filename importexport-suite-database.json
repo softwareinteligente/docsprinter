@@ -1,0 +1,64 @@
+{
+  "conductor": [
+    {
+      "id": "88777666",
+      "nombre": "JUAN CARLOS GARCIA",
+      "nacionalidad": "ECUATORIANA",
+      "licencia": "44333222",
+      "libreta": "00112233"
+    },
+    {
+      "id": "XXX",
+      "nombre": "XXX",
+      "nacionalidad": "XXX",
+      "licencia": "XXX",
+      "libreta": "XXX"
+    }
+  ],
+  "vehiculo": [
+    {
+      "placa": "PNB34C",
+      "marca": "KENWORTH",
+      "pais": "COLOMBIA",
+      "fabricacion": "2000",
+      "chasis": "10203040"
+    },
+    {
+      "placa": "XXX",
+      "marca": "XXX",
+      "fabricacion": "XXX",
+      "chasis": "XXX"
+    }
+  ],
+  "consecutivo": {
+    "nro_cartaporte": 26,
+    "nro_manifiesto": 11,
+    "nro_declaracion": 5
+  },
+  "empresa": [
+    {
+      "nombre": "MAKRO",
+      "direccion": "AV. CIRCUMVALAR",
+      "ciudad": "CALI",
+      "pais": "COLOMBIA",
+      "tipo_id": "RUT",
+      "id": "10203040"
+    },
+    {
+      "nombre": "COLOMBINA",
+      "direccion": "ANDALUCIA KM 20 VIA A TULUA",
+      "ciudad": "SANTIAGO DE CALI",
+      "pais": "COLOMBIA",
+      "tipo_id": "NIT",
+      "id": "10204050"
+    },
+    {
+      "nombre": "CEMENTOS DEL VALLE S.A.",
+      "direccion": "PARQUE INDUSTRIAL DE MOSQUERA - BOGOTA",
+      "ciudad": "MOSQUERA",
+      "pais": "COLOMBIA",
+      "tipo_id": "NIT",
+      "id": "22233355"
+    }
+  ]
+}

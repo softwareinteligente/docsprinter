@@ -5,9 +5,6 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1100, 1424]"/>
-    </Property>
   </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -26,14 +23,14 @@
     <Property name="useNullLayout" type="boolean" value="true"/>
   </Layout>
   <SubComponents>
-    <Component class="main.DocTextArea" name="txt00">
+    <Component class="main.DocText" name="txt00">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="790" y="90" width="240" height="15"/>
+          <AbsoluteConstraints x="790" y="75" width="240" height="35"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt01">
+    <Component class="main.DocText" name="txt01">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Narrow" size="14" style="1"/>
@@ -45,252 +42,252 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt02">
+    <Component class="main.DocText" name="txt02">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="295" width="508" height="70"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt03">
+    <Component class="main.DocText" name="txt03">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="390" width="508" height="65"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt04">
+    <Component class="main.DocText" name="txt04">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="485" width="508" height="85"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt05">
+    <Component class="main.DocText" name="txt05">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="135" width="508" height="65"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt06">
+    <Component class="main.DocText" name="txt06">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="225" width="508" height="40"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt07">
+    <Component class="main.DocText" name="txt07">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="295" width="508" height="70"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt08">
+    <Component class="main.DocText" name="txt08">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="390" width="508" height="65"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt09">
+    <Component class="main.DocText" name="txt09">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="485" width="508" height="85"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt10">
+    <Component class="main.DocText" name="txt10">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="640" width="100" height="296"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt11">
+    <Component class="main.DocText" name="txt11">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="140" y="640" width="110" height="296"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt12">
+    <Component class="main.DocText" name="txt12">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="258" y="640" width="520" height="296"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt13_1">
+    <Component class="main.DocText" name="txt13_1">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="790" y="670" width="128" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt13_2">
+    <Component class="main.DocText" name="txt13_2">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="928" y="670" width="128" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt14">
+    <Component class="main.DocText" name="txt14">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="790" y="770" width="128" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt15">
+    <Component class="main.DocText" name="txt15">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="928" y="770" width="128" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt16">
+    <Component class="main.DocText" name="txt16">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="788" y="862" width="270" height="74"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_11">
+    <Component class="main.DocText" name="txt17_11">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="105" y="990" width="121" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_12">
+    <Component class="main.DocText" name="txt17_12">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="105" y="1011" width="121" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_13">
+    <Component class="main.DocText" name="txt17_13">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="105" y="1031" width="121" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_14">
+    <Component class="main.DocText" name="txt17_14">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="105" y="1052" width="121" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_21">
+    <Component class="main.DocText" name="txt17_21">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="233" y="990" width="87" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_22">
+    <Component class="main.DocText" name="txt17_22">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="233" y="1011" width="87" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_23">
+    <Component class="main.DocText" name="txt17_23">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="233" y="1031" width="87" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_24">
+    <Component class="main.DocText" name="txt17_24">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="233" y="1052" width="87" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_31">
+    <Component class="main.DocText" name="txt17_31">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="327" y="990" width="107" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_32">
+    <Component class="main.DocText" name="txt17_32">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="327" y="1011" width="107" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_33">
+    <Component class="main.DocText" name="txt17_33">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="327" y="1031" width="107" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_34">
+    <Component class="main.DocText" name="txt17_34">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="327" y="1052" width="107" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_41">
+    <Component class="main.DocText" name="txt17_41">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="440" y="990" width="101" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_42">
+    <Component class="main.DocText" name="txt17_42">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="440" y="1011" width="101" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_43">
+    <Component class="main.DocText" name="txt17_43">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="440" y="1031" width="101" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt17_44">
+    <Component class="main.DocText" name="txt17_44">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="440" y="1052" width="101" height="18"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt18">
+    <Component class="main.DocText" name="txt18">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="1096" width="510" height="39"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt19">
+    <Component class="main.DocText" name="txt19">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="1164" width="510" height="47"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt20">
+    <Component class="main.DocText" name="txt20">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="33" y="1240" width="510" height="103"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt21">
+    <Component class="main.DocText" name="txt21">
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
       </AccessibilityProperties>
@@ -300,14 +297,14 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt22">
+    <Component class="main.DocText" name="txt22">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="1096" width="510" height="115"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="main.DocTextArea" name="txt23">
+    <Component class="main.DocText" name="txt23">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="548" y="1326" width="510" height="17"/>

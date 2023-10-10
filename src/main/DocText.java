@@ -17,11 +17,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class DocTextArea extends JTextPane {
+public class DocText extends JTextPane {
 
 	public String fontSizeName = "normal";
 
-	public DocTextArea () {
+	public DocText () {
 		super ();
 		addListeners ();
 		setFocusNavigation ();
@@ -44,7 +44,7 @@ public class DocTextArea extends JTextPane {
 		this.fontSizeName = fontSizeName;
 		int fontSize;
 		if (fontSizeName.equals ("large"))
-			fontSize = 14;
+			fontSize = 30;
 		else if (fontSizeName.equals ("small"))
 			fontSize = 8;
 		else

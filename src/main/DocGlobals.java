@@ -1,5 +1,6 @@
 package main;
 
+import com.google.gson.JsonObject;
 import java.nio.file.Paths;
 
 public class DocGlobals {
@@ -20,6 +21,9 @@ public class DocGlobals {
 	
 	static public String temporalPath;
 	static public String resourcesPath;
+	static public String runningPath;
+	static public String databasePath;
+	
 	static public String docFilename;
 	static public String docPdfFilename;
 	static public String docJsonFilename;
@@ -29,15 +33,29 @@ public class DocGlobals {
 	static int fontSizeSmall = 4;
 	
 	static public int fontLineSpacing;
+	static JsonObject database;
 	
 	
-	public static void initFilePaths () {
+	public static void initFilepaths () {
 		temporalPath = Utils.getTemporalPath ("tmp-docsprinter");
+		runningPath = Utils.convertToOSPath (System.getProperty ("user.dir"));
+		databasePath = Paths.get (runningPath, "importexport-suite-database.json").toString ();
+		
 		Utils.createFolder (temporalPath);
 		imgCartaporteFilepath = Paths.get (temporalPath, "resources",  imgCartaporteFilename).toString ();
 		pdfCartaporteFilepath = Paths.get (temporalPath, "resources", pdfCartaporteFilename).toString ();
 		imgManifiestoFilepath = Paths.get (temporalPath, "resources",  imgManifiestoFilename).toString ();
 		pdfManifiestoFilepath = Paths.get (temporalPath, "resources", pdfManifiestoFilename).toString ();
+		imgDeclaracionFilepath = Paths.get (temporalPath, "resources",  imgDeclaracionFilename).toString ();
+		pdfDeclaracionFilepath = Paths.get (temporalPath, "resources", pdfDeclaracionFilename).toString ();
 		resourcesPath = Paths.get (temporalPath, "resources").toString ();
 	}	
+	
+	public static void printFilepaths () {
+		System.out.println (">>> Filepaths: <<<");
+		System.out.println (">>> temporalPath:" + temporalPath);
+		System.out.println (">>> resourcesPath:" + resourcesPath);
+		System.out.println (">>> runningPath:" + runningPath);
+		System.out.println (">>> databasePath:" + databasePath);
+	}
 }

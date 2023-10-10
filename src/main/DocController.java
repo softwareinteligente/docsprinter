@@ -10,72 +10,125 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.Timer;
 
 public class DocController {
-
 	DocGlobals model;
 	DocFrame docFrame;
+	DocBar docBar;
+	JTabbedPane docsTabs;
 	DocPanel currentDoc;
 	Timer autoSaveTimer;
 
 	public DocController () {
 		model = new DocGlobals ();
-		DocGlobals.initFilePaths ();
+		DocGlobals.initFilepaths ();
+		DocGlobals.printFilepaths ();
 		initComponents ();
+		DocGlobals.database = DocDB.initializeDatabase (DocGlobals.databasePath);
 	}
 
 	public void initComponents () {
-		Utils.copyResourcesToTemporalPath (this, DocGlobals.temporalPath);
+		Utils.copyResourcesToTemporalPath (this, DocGlobals.resourcesPath);
+
 		docFrame = new DocFrame ();
-		docFrame.setSize (1100, 800);
+		docFrame.setSize (1250, 800);
 		docFrame.setVisible (true);
 		docFrame.setController (this);
+
+		docBar = docFrame.getDocBar ();
+		docsTabs = docFrame.getDocTabs ();
+		docBar.setController (this);
+
 	}
 
-	DocPanel onNewDocument (String documentType, String newFilepath) {
+	DocPanel createDocument (String documentType, String docFilepath) {
 		DocPanel newDocPanel = null;
-		if ((documentType.equals ("cartaporte")))
-			newDocPanel = new DocPanelCartaporte ();
-		else if ((documentType.equals ("manifiesto")))
-			newDocPanel = new DocPanelManifiesto ();
-		else if ((documentType.equals ("declaracion")))
-			newDocPanel = new DocPanelDeclaracion ();
+		switch (documentType) {
+			case "cartaporte":
+				System.out.println (">>> Creando cartaporte...");
+				newDocPanel = new DocPanelCartaporte ();
+				newDocPanel.docNumber = String.format ("CTP-%06d", DocDB.getNextNroDocumento (documentType));
+				break;
+			case "manifiesto":
+				newDocPanel = new DocPanelManifiesto ();
+				newDocPanel.docNumber = String.format ("MNF-%06d", DocDB.getNextNroDocumento (documentType));
+				break;
+			case "declaracion":
+				newDocPanel = new DocPanelDeclaracion ();	
+				newDocPanel.docNumber = String.format ("DCL-%06d", DocDB.getNextNroDocumento (documentType));
+				break;
+		}
+		if (docFilepath != null) {
+			newDocPanel.init (docFilepath);
+			docsTabs.addTab (newDocPanel.docName, newDocPanel);
+			int lastIndex = docsTabs.getTabCount () - 1;
+			docsTabs.setSelectedIndex (lastIndex);
+			currentDoc = newDocPanel;
+		}
+		return (newDocPanel);
+	}
 
-		newDocPanel.init (newFilepath);
-		docFrame.addTab (newDocPanel.docName, newDocPanel);
-		currentDoc = newDocPanel;
+	DocPanel onNewDocument (String documentType) {
+		DocPanel newDocPanel;
+		String newFilepath = docFrame.selectFileFromFileChooser ();
+		newDocPanel = createDocument (documentType, newFilepath);
 		return (newDocPanel);
 	}
 
 	public void onOpenDocument () {
 		String existingFilepath = docFrame.selectFileFromFileChooser ();
 		String documentType = this.getDocumentTypeFromFile (existingFilepath);
-		currentDoc = onNewDocument (documentType, existingFilepath);
+		currentDoc = this.createDocument (documentType, existingFilepath);
 		this.loadJsonFileToDoc (currentDoc);
-	}
-
-	void onSaveCurrentToPDF () {
-		System.out.println (">>> Guardando en formato PDF...");
-		PdfPrinter pdfPrinter = new PdfPrinter (currentDoc);
-		pdfPrinter.printDocument ();
 	}
 
 	public void onSaveCurrentToJson () {
 		System.out.println ("Guardando en formato JSON...");
-		this.writeToDocJsonFile (currentDoc);
+		if (this.checkActiveDocument ())
+			this.writeToDocJsonFile (currentDoc);
+	}
+
+	void onSaveCurrentToPDF () {	
+		System.out.println (">>> Guardando en formato PDF...");
+		if (this.checkActiveDocument ()) {			
+			PdfPrinter pdfPrinter = new PdfPrinter (currentDoc);
+			pdfPrinter.printDocument ();
+		}
+	}
+
+	void onCloseCurrent () {
+		if (this.checkActiveDocument ()) {
+			this.onSaveCurrentToJson ();
+			docsTabs.remove (currentDoc);
+			if (docsTabs.getTabCount () > 0) {
+				currentDoc = (DocPanel) docsTabs.getTabComponentAt (0);
+				docsTabs.setSelectedIndex (0);
+			} else
+				currentDoc = null;
+		}
+	}
+
+	boolean checkActiveDocument () {
+		if (currentDoc == null) {
+			JOptionPane.showMessageDialog (null, "No hay documentos activos.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}else
+			return true;
 	}
 
 	void writeToDocJsonFile (DocPanel currentDoc) {
 		System.out.println (">>> Guardando el archivo de datos en: " + currentDoc.jsonFilepath);
 		String docType = currentDoc.docType;
-		DocTextArea[] textAreas = currentDoc.textAreas;
+		DocText[] textAreas = currentDoc.textAreas;
 
 		JsonObject field = new JsonObject ();
 		field.addProperty ("doctype", currentDoc.docType);
 
 		for (int i = 0; i < textAreas.length; i++) {
-			DocTextArea textArea = textAreas[i];
+			DocText textArea = textAreas[i];
 			String text = textArea.getText ();
 			String key = String.format ("txt%02d", i);
 			field.addProperty (key, text);
@@ -94,7 +147,7 @@ public class DocController {
 
 	void loadJsonFileToDoc (DocPanel existingDocPanel) {
 		currentDoc = existingDocPanel;
-		DocTextArea[] textAreas = null;
+		DocText[] textAreas = null;
 		String jsonFilepath = existingDocPanel.jsonFilepath;
 
 		if (jsonFilepath != null)
@@ -109,7 +162,7 @@ public class DocController {
 			for (int i = 0; i < textAreas.length; i++) {
 				String key = String.format ("txt%02d", i);
 				String text = jsonObject.get (key).getAsString ();
-				DocTextArea dta = textAreas[i];
+				DocText dta = textAreas[i];
 				dta.loadText (text);
 			}
 		} catch (FileNotFoundException ex) {
@@ -177,6 +230,11 @@ public class DocController {
 				new DocController ();
 			}
 		});
+	}
+
+	void viewPrintPdf () {
+		String pdfFilepath = currentDoc.pdfFilepath;
+		PdfPrinter.openPDF (pdfFilepath);
 	}
 
 }

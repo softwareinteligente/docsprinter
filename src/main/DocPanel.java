@@ -1,5 +1,6 @@
 package main;
 
+import com.google.gson.JsonObject;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -15,9 +16,10 @@ public class DocPanel extends javax.swing.JPanel {
 	ImageIcon imageIcon;
 
 	int imgWidth, imgHeight, pdfWidth, pdfHeight;
-	DocTextArea[] textAreas;
+	DocText[] textAreas;
 	public String docType;
 	public String docName;
+	public String docNumber;
 
 	public DocPanel () {
 		initComponents ();
@@ -28,6 +30,21 @@ public class DocPanel extends javax.swing.JPanel {
 		setUpperCaseToTextAreas ();
 		setConstraintsToTextAreas ();
 		setFilepath (newFilepath);
+
+		switch (docType) {
+			case "cartaporte":
+				imgTemplateFilepath = DocGlobals.imgCartaporteFilepath;
+				pdfTemplateFilepath = DocGlobals.pdfCartaporteFilepath;
+				break;
+			case "manifiesto":
+				imgTemplateFilepath = DocGlobals.imgManifiestoFilepath;
+				pdfTemplateFilepath = DocGlobals.pdfManifiestoFilepath;
+				break;
+			case "declaracion":
+				imgTemplateFilepath = DocGlobals.imgDeclaracionFilepath;
+				pdfTemplateFilepath = DocGlobals.pdfDeclaracionFilepath;
+				break;
+		}
 	}
 
 	public void setConstraintsToTextAreas () {
@@ -54,18 +71,18 @@ public class DocPanel extends javax.swing.JPanel {
 	}
 
 	// Get all DocTextAreas to set initial parameters
-	public DocTextArea[] getDocTextAreas () {
+	public DocText[] getDocTextAreas () {
 		Component[] components = getComponents ();
-		DocTextArea[] textAreas = new DocTextArea[components.length - 1];
+		DocText[] textAreas = new DocText[components.length - 1];
 		for (int i = 0; i < components.length - 1; i++) {
-			DocTextArea dta = (DocTextArea) components[i];
+			DocText dta = (DocText) components[i];
 			textAreas[i] = dta;
 		}
 		return textAreas;
 	}
 
 	public void setUpperCaseToTextAreas () {
-		for (DocTextArea textArea : getDocTextAreas ()) {
+		for (DocText textArea : getDocTextAreas ()) {
 			textArea.setUpperCaseFilter ();
 		}
 	}
@@ -77,12 +94,13 @@ public class DocPanel extends javax.swing.JPanel {
 	}
 
 	public void cleanPanel () {
-		for (DocTextArea textArea : getDocTextAreas ()) {
+		for (DocText textArea : getDocTextAreas ()) {
 			textArea.setText ("");
 		}
 	}
+	
 //
-//	public void writeSingleFieldToPDF (PDPageContentStream contentStream, DocTextArea textArea) throws IOException {
+//	public void writeSingleFieldToPDF (PDPageContentStream contentStream, DocText textArea) throws IOException {
 //		// Split by newlines
 //		Rectangle imgBounds = textArea.getBounds ();
 //		Point point = new Point (imgBounds.x, imgBounds.y);
@@ -116,7 +134,6 @@ public class DocPanel extends javax.swing.JPanel {
 ////		contentStream.showText (textComp.getText ());
 ////		contentStream.endText ();
 //	}
-
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always

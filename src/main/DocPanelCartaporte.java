@@ -1,21 +1,63 @@
 package main;
 
-import java.awt.Dimension;
+import com.google.gson.JsonObject;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class DocPanelCartaporte extends DocPanel {
+
 	public DocPanelCartaporte () {
 		initComponents ();
-		imgTemplateFilepath = DocGlobals.imgCartaporteFilepath;
-		pdfTemplateFilepath = DocGlobals.pdfCartaporteFilepath;
 		docType = "cartaporte";
 		imageIcon = (ImageIcon) imageLabel.getIcon ();
 	}
-	
+
 	public void setConstraintsToTextAreas () {
-			this.txt00.setFontSize ("large");
+		this.txt00.setFontSize ("large");
+		this.txt00.setText (docNumber);
+		
+		addKeyListenerForEmpresa (txt02);
+		addKeyListenerForEmpresa (txt03);
+		addKeyListenerForEmpresa (txt04);
+		addKeyListenerForEmpresa (txt05);
 	}
-	
+
+	public void addKeyListenerForEmpresa (DocText txtEmpresa) {
+		txtEmpresa.addKeyListener (new KeyAdapter () {
+			public void keyPressed (KeyEvent e) {
+				if (e.getKeyCode () != KeyEvent.VK_ENTER) {
+					super.keyPressed (e);
+					return;
+				}
+				if (e.isControlDown () && e.getKeyCode () == KeyEvent.VK_ENTER) {
+					System.out.println (">>> Actualizando una nueva emprea desde el texto:" + txtEmpresa.getText ());
+					String[] textLines = txtEmpresa.getText ().split (System.lineSeparator ());
+					String nombre = textLines[0];
+					String direccion = textLines[1];
+					String[] ciudadPais = textLines[2].split ("\\s*-\\s*");
+					String ciudad = ciudadPais.length > 0 ? ciudadPais[0] : null;
+					String pais = ciudadPais.length > 1 ? ciudadPais[1] : null;
+					String[] typeIdId = textLines[3].split ("\\s*:\\s*");
+					String tipoId = typeIdId.length > 0 ? typeIdId[0] : null;
+					String id = typeIdId.length > 1 ? typeIdId[1] : null;
+					DocDB.addEmpresa (nombre, direccion, ciudad, pais, tipoId, id);
+				} else if (e.getKeyCode () == KeyEvent.VK_ENTER) {
+					System.out.println (">>> Consultando empresa desde el texto: " + txtEmpresa.getText ());
+					String nombre = txtEmpresa.getText ();
+					JsonObject result = DocDB.searchEmpresa (DocGlobals.database, nombre);
+					if (result != null) {
+						txtEmpresa.setText (
+							DocDB.getValue (result, "nombre") + System.lineSeparator ()
+							+ DocDB.getValue (result, "direccion") + System.lineSeparator ()
+							+ DocDB.getValue (result, "ciudad") + " - " + DocDB.getValue (result, "pais") + System.lineSeparator ()
+							+ DocDB.getValue (result, "tipo_id") + ":" + DocDB.getValue (result, "id"));
+						e.consume();
+					}
+				}
+			}
+		});
+	}
 
 	// Text limits to maxLines and maxChars
 	public void setLimitsToTextAreas () {
@@ -62,189 +104,182 @@ public class DocPanelCartaporte extends DocPanel {
 		this.txt17_23.setParameters (1, 14, "normal", "alignRight");
 		this.txt17_24.setParameters (1, 14, "normal", "alignRight");
 
-		this.txt17_31.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_32.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_33.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_34.setParameters (1, 14, "normal", "alignRight"); 	
+		this.txt17_31.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_32.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_33.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_34.setParameters (1, 14, "normal", "alignRight");
 
-		this.txt17_41.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_42.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_43.setParameters (1, 14, "normal", "alignRight"); 	
-		this.txt17_44.setParameters (1, 14, "normal", "alignRight"); 	
-		
+		this.txt17_41.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_42.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_43.setParameters (1, 14, "normal", "alignRight");
+		this.txt17_44.setParameters (1, 14, "normal", "alignRight");
+
 		// 18, 19, 20, 21, 22, 23:
 		this.txt18.setParameters (2, 70, "normal");
 		this.txt19.setParameters (2, 70, "normal");
 		this.txt20.setParameters (6, 70, "normal");
 		this.txt21.setParameters (4, 70, "normal");
-		this.txt22.setParameters (6	, 70, "normal");
+		this.txt22.setParameters (6, 70, "normal");
 		this.txt23.setParameters (1, 70, "normal");
 	}
 
-	//@Override
-	public Dimension getPreferredSize () {
-		Dimension imageSize = new Dimension (imageIcon.getIconWidth (), imageIcon.getIconHeight ());
-		return imageSize;
-	}
-
-
-	public DocTextArea getTxt00 () {
+	public DocText getTxt00 () {
 		return txt00;
 	}
 
-	public DocTextArea getTxt01 () {
+	public DocText getTxt01 () {
 		return txt01;
 	}
 
-	public DocTextArea getTxt02 () {
+	public DocText getTxt02 () {
 		return txt02;
 	}
 
-	public DocTextArea getTxt03 () {
+	public DocText getTxt03 () {
 		return txt03;
 	}
 
-	public DocTextArea getTxt04 () {
+	public DocText getTxt04 () {
 		return txt04;
 	}
 
-	public DocTextArea getTxt05 () {
+	public DocText getTxt05 () {
 		return txt05;
 	}
 
-	public DocTextArea getTxt06 () {
+	public DocText getTxt06 () {
 		return txt06;
 	}
 
-	public DocTextArea getTxt07 () {
+	public DocText getTxt07 () {
 		return txt07;
 	}
 
-	public DocTextArea getTxt08 () {
+	public DocText getTxt08 () {
 		return txt08;
 	}
 
-	public DocTextArea getTxt09 () {
+	public DocText getTxt09 () {
 		return txt09;
 	}
 
-	public DocTextArea getTxt10 () {
+	public DocText getTxt10 () {
 		return txt10;
 	}
 
-	public DocTextArea getTxt11 () {
+	public DocText getTxt11 () {
 		return txt11;
 	}
 
-	public DocTextArea getTxt12 () {
+	public DocText getTxt12 () {
 		return txt12;
 	}
 
-	public DocTextArea getTxt14 () {
+	public DocText getTxt14 () {
 		return txt13_1;
 	}
 
-	public DocTextArea getTxt15 () {
+	public DocText getTxt15 () {
 		return txt13_2;
 	}
 
-	public DocTextArea getTxt16 () {
+	public DocText getTxt16 () {
 		return txt14;
 	}
 
-	public DocTextArea getTxt17 () {
+	public DocText getTxt17 () {
 		return txt15;
 	}
 
-	public DocTextArea getTxt18 () {
+	public DocText getTxt18 () {
 		return txt16;
 	}
 
-	public DocTextArea getTxt17_11 () {
+	public DocText getTxt17_11 () {
 		return txt17_11;
 	}
 
-	public DocTextArea getTxt17_12 () {
+	public DocText getTxt17_12 () {
 		return txt17_12;
 	}
 
-	public DocTextArea getTxt17_13 () {
+	public DocText getTxt17_13 () {
 		return txt17_13;
 	}
 
-	public DocTextArea getTxt17_14 () {
+	public DocText getTxt17_14 () {
 		return txt17_14;
 	}
 
-	public DocTextArea getTxt17_21 () {
+	public DocText getTxt17_21 () {
 		return txt17_21;
 	}
 
-	public DocTextArea getTxt17_22 () {
+	public DocText getTxt17_22 () {
 		return txt17_22;
 	}
 
-	public DocTextArea getTxt17_23 () {
+	public DocText getTxt17_23 () {
 		return txt17_23;
 	}
 
-	public DocTextArea getTxt17_24 () {
+	public DocText getTxt17_24 () {
 		return txt17_24;
 	}
 
-	public DocTextArea getTxt17_31 () {
+	public DocText getTxt17_31 () {
 		return txt17_31;
 	}
 
-	public DocTextArea getTxt17_32 () {
+	public DocText getTxt17_32 () {
 		return txt17_32;
 	}
 
-	public DocTextArea getTxt17_33 () {
+	public DocText getTxt17_33 () {
 		return txt17_33;
 	}
 
-	public DocTextArea getTxt17_34 () {
+	public DocText getTxt17_34 () {
 		return txt17_34;
 	}
 
-	public DocTextArea getTxt22_1 () {
+	public DocText getTxt22_1 () {
 		return txt17_41;
 	}
 
-	public DocTextArea getTxt22_2 () {
+	public DocText getTxt22_2 () {
 		return txt17_42;
 	}
 
-	public DocTextArea getTxt22_3 () {
+	public DocText getTxt22_3 () {
 		return txt17_43;
 	}
 
-	public DocTextArea getTxt22_4 () {
+	public DocText getTxt22_4 () {
 		return txt17_44;
 	}
 
-	public DocTextArea getTxt23 () {
+	public DocText getTxt23 () {
 		return txt18;
 	}
 
-	public DocTextArea getTxt24 () {
+	public DocText getTxt24 () {
 		return txt19;
 	}
 
-	public DocTextArea getTxt25 () {
+	public DocText getTxt25 () {
 		return txt20;
 	}
 
-	public DocTextArea getTxt26 () {
+	public DocText getTxt26 () {
 		return txt21;
 	}
 
-	public DocTextArea getTxt27 () {
+	public DocText getTxt27 () {
 		return txt22;
 	}
 
-	public DocTextArea getTxt28 () {
+	public DocText getTxt28 () {
 		return txt23;
 	}
 
@@ -257,53 +292,52 @@ public class DocPanelCartaporte extends DocPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    txt00 = new main.DocTextArea();
-    txt01 = new main.DocTextArea();
-    txt02 = new main.DocTextArea();
-    txt03 = new main.DocTextArea();
-    txt04 = new main.DocTextArea();
-    txt05 = new main.DocTextArea();
-    txt06 = new main.DocTextArea();
-    txt07 = new main.DocTextArea();
-    txt08 = new main.DocTextArea();
-    txt09 = new main.DocTextArea();
-    txt10 = new main.DocTextArea();
-    txt11 = new main.DocTextArea();
-    txt12 = new main.DocTextArea();
-    txt13_1 = new main.DocTextArea();
-    txt13_2 = new main.DocTextArea();
-    txt14 = new main.DocTextArea();
-    txt15 = new main.DocTextArea();
-    txt16 = new main.DocTextArea();
-    txt17_11 = new main.DocTextArea();
-    txt17_12 = new main.DocTextArea();
-    txt17_13 = new main.DocTextArea();
-    txt17_14 = new main.DocTextArea();
-    txt17_21 = new main.DocTextArea();
-    txt17_22 = new main.DocTextArea();
-    txt17_23 = new main.DocTextArea();
-    txt17_24 = new main.DocTextArea();
-    txt17_31 = new main.DocTextArea();
-    txt17_32 = new main.DocTextArea();
-    txt17_33 = new main.DocTextArea();
-    txt17_34 = new main.DocTextArea();
-    txt17_41 = new main.DocTextArea();
-    txt17_42 = new main.DocTextArea();
-    txt17_43 = new main.DocTextArea();
-    txt17_44 = new main.DocTextArea();
-    txt18 = new main.DocTextArea();
-    txt19 = new main.DocTextArea();
-    txt20 = new main.DocTextArea();
-    txt21 = new main.DocTextArea();
-    txt22 = new main.DocTextArea();
-    txt23 = new main.DocTextArea();
+    txt00 = new main.DocText();
+    txt01 = new main.DocText();
+    txt02 = new main.DocText();
+    txt03 = new main.DocText();
+    txt04 = new main.DocText();
+    txt05 = new main.DocText();
+    txt06 = new main.DocText();
+    txt07 = new main.DocText();
+    txt08 = new main.DocText();
+    txt09 = new main.DocText();
+    txt10 = new main.DocText();
+    txt11 = new main.DocText();
+    txt12 = new main.DocText();
+    txt13_1 = new main.DocText();
+    txt13_2 = new main.DocText();
+    txt14 = new main.DocText();
+    txt15 = new main.DocText();
+    txt16 = new main.DocText();
+    txt17_11 = new main.DocText();
+    txt17_12 = new main.DocText();
+    txt17_13 = new main.DocText();
+    txt17_14 = new main.DocText();
+    txt17_21 = new main.DocText();
+    txt17_22 = new main.DocText();
+    txt17_23 = new main.DocText();
+    txt17_24 = new main.DocText();
+    txt17_31 = new main.DocText();
+    txt17_32 = new main.DocText();
+    txt17_33 = new main.DocText();
+    txt17_34 = new main.DocText();
+    txt17_41 = new main.DocText();
+    txt17_42 = new main.DocText();
+    txt17_43 = new main.DocText();
+    txt17_44 = new main.DocText();
+    txt18 = new main.DocText();
+    txt19 = new main.DocText();
+    txt20 = new main.DocText();
+    txt21 = new main.DocText();
+    txt22 = new main.DocText();
+    txt23 = new main.DocText();
     imageLabel = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(255, 255, 255));
-    setPreferredSize(new java.awt.Dimension(1100, 1424));
     setLayout(null);
     add(txt00);
-    txt00.setBounds(790, 90, 240, 15);
+    txt00.setBounds(790, 75, 240, 35);
 
     txt01.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
     add(txt01);
@@ -396,46 +430,46 @@ public class DocPanelCartaporte extends DocPanel {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel imageLabel;
-  private main.DocTextArea txt00;
-  private main.DocTextArea txt01;
-  private main.DocTextArea txt02;
-  private main.DocTextArea txt03;
-  private main.DocTextArea txt04;
-  private main.DocTextArea txt05;
-  private main.DocTextArea txt06;
-  private main.DocTextArea txt07;
-  private main.DocTextArea txt08;
-  private main.DocTextArea txt09;
-  private main.DocTextArea txt10;
-  private main.DocTextArea txt11;
-  private main.DocTextArea txt12;
-  private main.DocTextArea txt13_1;
-  private main.DocTextArea txt13_2;
-  private main.DocTextArea txt14;
-  private main.DocTextArea txt15;
-  private main.DocTextArea txt16;
-  private main.DocTextArea txt17_11;
-  private main.DocTextArea txt17_12;
-  private main.DocTextArea txt17_13;
-  private main.DocTextArea txt17_14;
-  private main.DocTextArea txt17_21;
-  private main.DocTextArea txt17_22;
-  private main.DocTextArea txt17_23;
-  private main.DocTextArea txt17_24;
-  private main.DocTextArea txt17_31;
-  private main.DocTextArea txt17_32;
-  private main.DocTextArea txt17_33;
-  private main.DocTextArea txt17_34;
-  private main.DocTextArea txt17_41;
-  private main.DocTextArea txt17_42;
-  private main.DocTextArea txt17_43;
-  private main.DocTextArea txt17_44;
-  private main.DocTextArea txt18;
-  private main.DocTextArea txt19;
-  private main.DocTextArea txt20;
-  private main.DocTextArea txt21;
-  private main.DocTextArea txt22;
-  private main.DocTextArea txt23;
+  private main.DocText txt00;
+  private main.DocText txt01;
+  private main.DocText txt02;
+  private main.DocText txt03;
+  private main.DocText txt04;
+  private main.DocText txt05;
+  private main.DocText txt06;
+  private main.DocText txt07;
+  private main.DocText txt08;
+  private main.DocText txt09;
+  private main.DocText txt10;
+  private main.DocText txt11;
+  private main.DocText txt12;
+  private main.DocText txt13_1;
+  private main.DocText txt13_2;
+  private main.DocText txt14;
+  private main.DocText txt15;
+  private main.DocText txt16;
+  private main.DocText txt17_11;
+  private main.DocText txt17_12;
+  private main.DocText txt17_13;
+  private main.DocText txt17_14;
+  private main.DocText txt17_21;
+  private main.DocText txt17_22;
+  private main.DocText txt17_23;
+  private main.DocText txt17_24;
+  private main.DocText txt17_31;
+  private main.DocText txt17_32;
+  private main.DocText txt17_33;
+  private main.DocText txt17_34;
+  private main.DocText txt17_41;
+  private main.DocText txt17_42;
+  private main.DocText txt17_43;
+  private main.DocText txt17_44;
+  private main.DocText txt18;
+  private main.DocText txt19;
+  private main.DocText txt20;
+  private main.DocText txt21;
+  private main.DocText txt22;
+  private main.DocText txt23;
   // End of variables declaration//GEN-END:variables
 
 }

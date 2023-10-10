@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollBar;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -26,10 +27,6 @@ public class DocFrame extends javax.swing.JFrame {
 		this.controller = controller;
 	}
 
-	void addTab (String tabName, DocPanel docPanel) {
-		docsTabs.add (tabName, docPanel);
-	}
-
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +38,7 @@ public class DocFrame extends javax.swing.JFrame {
 
     scrollPanel = new javax.swing.JScrollPane();
     docsTabs = new javax.swing.JTabbedPane();
+    docBar = new main.DocBar();
     menuBar = new javax.swing.JMenuBar();
     fileMenu = new javax.swing.JMenu();
     newCartaporte = new javax.swing.JMenuItem();
@@ -50,10 +48,10 @@ public class DocFrame extends javax.swing.JFrame {
     openFile = new javax.swing.JCheckBoxMenuItem();
     saveFile = new javax.swing.JCheckBoxMenuItem();
     saveAsPdf = new javax.swing.JMenuItem();
+    viewPrintItem = new javax.swing.JMenuItem();
     jSeparator2 = new javax.swing.JPopupMenu.Separator();
     closeFle = new javax.swing.JMenuItem();
     exitFile = new javax.swing.JMenuItem();
-    jMenu2 = new javax.swing.JMenu();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +60,7 @@ public class DocFrame extends javax.swing.JFrame {
     scrollPanel.setViewportView(docsTabs);
 
     getContentPane().add(scrollPanel, java.awt.BorderLayout.CENTER);
+    getContentPane().add(docBar, java.awt.BorderLayout.LINE_START);
 
     fileMenu.setText("Archivo");
 
@@ -113,6 +112,14 @@ public class DocFrame extends javax.swing.JFrame {
       }
     });
     fileMenu.add(saveAsPdf);
+
+    viewPrintItem.setText("Ver/Imprimir PDF");
+    viewPrintItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        viewPrintItemActionPerformed(evt);
+      }
+    });
+    fileMenu.add(viewPrintItem);
     fileMenu.add(jSeparator2);
 
     closeFle.setText("Cerrar actual");
@@ -127,9 +134,6 @@ public class DocFrame extends javax.swing.JFrame {
     fileMenu.add(exitFile);
 
     menuBar.add(fileMenu);
-
-    jMenu2.setText("Edit");
-    menuBar.add(jMenu2);
 
     setJMenuBar(menuBar);
 
@@ -179,23 +183,20 @@ public class DocFrame extends javax.swing.JFrame {
 
   private void newCartaporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCartaporteActionPerformed
 		// Create a file filter for a specific extension (e.g., ".txt")
-
-		String newFilepath = this.selectFileFromFileChooser ();
-		if (newFilepath != null)
-			controller.onNewDocument ("cartaporte", newFilepath);
+			controller.onNewDocument ("cartaporte");
   }//GEN-LAST:event_newCartaporteActionPerformed
 
   private void newManifiestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newManifiestoActionPerformed
-		String newFilepath = this.selectFileFromFileChooser ();
-		if (newFilepath != null)
-			controller.onNewDocument ("manifiesto", newFilepath);
+			controller.onNewDocument ("manifiesto");
   }//GEN-LAST:event_newManifiestoActionPerformed
 
   private void newDeclaracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDeclaracionActionPerformed
-		String newFilepath = this.selectFileFromFileChooser ();
-		if (newFilepath != null)
-			controller.onNewDocument ("declaracion", newFilepath);	
+			controller.onNewDocument ("declaracion");	
   }//GEN-LAST:event_newDeclaracionActionPerformed
+
+  private void viewPrintItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPrintItemActionPerformed
+		controller.viewPrintPdf ();
+  }//GEN-LAST:event_viewPrintItemActionPerformed
 
 	public void setSpanishLabels () {
 		// Set the Spanish labels and messages for the file chooser
@@ -235,10 +236,10 @@ public class DocFrame extends javax.swing.JFrame {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JMenuItem closeFle;
+  private main.DocBar docBar;
   private javax.swing.JTabbedPane docsTabs;
   private javax.swing.JMenuItem exitFile;
   private javax.swing.JMenu fileMenu;
-  private javax.swing.JMenu jMenu2;
   private javax.swing.JPopupMenu.Separator jSeparator1;
   private javax.swing.JPopupMenu.Separator jSeparator2;
   private javax.swing.JMenuBar menuBar;
@@ -249,6 +250,15 @@ public class DocFrame extends javax.swing.JFrame {
   private javax.swing.JMenuItem saveAsPdf;
   private javax.swing.JCheckBoxMenuItem saveFile;
   private javax.swing.JScrollPane scrollPanel;
+  private javax.swing.JMenuItem viewPrintItem;
   // End of variables declaration//GEN-END:variables
+
+	DocBar getDocBar () {
+		return (docBar);
+	}
+	
+	JTabbedPane getDocTabs () {
+		return (docsTabs);
+	}
 
 }
